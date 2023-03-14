@@ -89,7 +89,7 @@ def etl_gcs_to_bq():
         ],
         source_format=bigquery.SourceFormat.NEWLINE_DELIMITED_JSON,
     )
-    uri = "gs://skycryback/test/json_data.json"
+    uri = 'gs://skycryback/test/json_data_' + time.strftime("%Y%m%d")  + '.json'
     table_id = "massive-capsule-295317.258.raw_data"
 
     load_job = client.load_table_from_uri(
