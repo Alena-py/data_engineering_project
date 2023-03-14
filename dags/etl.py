@@ -179,7 +179,10 @@ def etl_stg_to_odm():
             ,totalGoldMedals = src.totalGoldMedals
             ,totalSilverMedals = src.totalSilverMedals
             ,totalBronzeMedals = src.totalBronzeMedals
-            ,sysupdatedttm = case when md5(concat(coalesce(src.currentRanking, 'n')
+            ,sysupdatedttm = src.edit
+	FROM  (
+   
+    select distinct src.*, case when md5(concat(coalesce(src.currentRanking, 'n')
             ,coalesce(src.displayName, 'n')
             ,coalesce(src.thumbnailUrl, 'n')
             ,coalesce(src.userId, 'n')
@@ -202,13 +205,13 @@ def etl_stg_to_odm():
             ,coalesce(tgt.totalSilverMedals, 'n')
             ,coalesce(tgt.totalBronzeMedals, 'n')))
             then 
-            tgt.sysupdatedttm else CURRENT_DATETIME() end 
-	FROM `massive-capsule-295317.258.raw_data`src
-    inner JOIN `{table_id}` tgt
-    ON src.userId = tgt.userId
-    and cast(sysinsertdttm as date) = current_date
-    where src.userId = t.userId
-    ; 
+            tgt.sysupdatedttm else CURRENT_DATETIME() end edit
+    	FROM `massive-capsule-295317.258.raw_data`src
+        inner JOIN `{table_id}` tgt
+        ON src.userId = tgt.userId
+        and cast(src.sysinsertdttm as date) = current_date
+         ) src
+    where src.userId = t.userId; 
     
     DELETE `{table_id}`
     where userId in ( 
