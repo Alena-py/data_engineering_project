@@ -135,7 +135,7 @@ def etl_stg_to_odm():
     
     # Check if table exists
     table = client.get_table(table_id)
-    if table.exists():
+    if table:
         print(f'Table {table_id} already exists.')
 
     else:
