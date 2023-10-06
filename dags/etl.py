@@ -36,7 +36,7 @@ def get_json(ti):
     username = []
     for i in usernames:
         username.append(json.loads(i))
-
+    sleep(100)
     return username
 
     
