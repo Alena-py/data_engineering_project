@@ -6,6 +6,7 @@ from airflow.providers.google.cloud.operators.bigquery import (
 )
 
 import requests
+import time
 from datetime import datetime
 				
 import re
@@ -36,7 +37,7 @@ def get_json(ti):
     username = []
     for i in usernames:
         username.append(json.loads(i))
-    sleep(100)
+    time.sleep(100)
     return username
 
     
